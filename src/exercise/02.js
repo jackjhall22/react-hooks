@@ -2,19 +2,25 @@
 // http://localhost:3000/isolated/exercise/02.js
 
 import * as React from 'react'
-
-function Greeting({initialName = ''}) {
-  // 🐨 initialize the state to the value from localStorage
-    const [name, setName] = React.useState(
-    () => window.localStorage.getItem('name') || initialName
+function syncLocalStorage(key, defaultValue = "") {
+   // 🐨 initialize the state to the value from localStorage
+   // eslint-disable-next-line react-hooks/rules-of-hooks
+   const [state, setState] = React.useState(
+    () => window.localStorage.getItem(key) || defaultValue 
     )
 
   // 🐨 Here's where you'll use `React.useEffect`.
   // The callback should set the `name` in localStorage.
   // 💰 window.localStorage.setItem('name', name)
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   React.useEffect(() => {
-    window.localStorage.setItem('name', name);
-  }, [name]);
+    window.localStorage.setItem(key, state);
+  }, [key, state]);
+    return [ state, setState]
+}
+
+function Greeting({initialName = ''}) {
+  const [name, setName] = syncLocalStorage('name', initialName)
 
   function handleChange(event) {
     setName(event.target.value)
