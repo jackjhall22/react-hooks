@@ -2,7 +2,7 @@
 // http://localhost:3000/isolated/exercise/02.js
 
 import * as React from 'react'
-function syncLocalStorage(key, defaultValue = "") {
+function useSyncLocalStorage(key, defaultValue = "") {
    // 🐨 initialize the state to the value from localStorage
    // eslint-disable-next-line react-hooks/rules-of-hooks
    const [state, setState] = React.useState(
@@ -20,7 +20,7 @@ function syncLocalStorage(key, defaultValue = "") {
 }
 
 function Greeting({initialName = ''}) {
-  const [name, setName] = syncLocalStorage('name', initialName)
+  const [name, setName] = useSyncLocalStorage('name', initialName)
 
   function handleChange(event) {
     setName(event.target.value)
