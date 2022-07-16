@@ -11,17 +11,24 @@ import {PokemonForm} from '../pokemon'
 
 function PokemonInfo({pokemonName}) {
   const [pokemon, setPokemon] = React.useState(null)
+  const [error, setError] = React.useState(null)
 
   React.useEffect(() => {
     if(!pokemonName) return
     setPokemon(null)
-    fetchPokemon(pokemonName).then((data) => {
-      setPokemon(data)
-    })
+
+    fetchPokemon(pokemonName).then(
+      (data) => setPokemon(data),
+      (error) => setError(error))
   }, [pokemonName])
 
   if (pokemonName === null) return 'Submit a pokemon'
-  if (!pokemonName) return <PokemonInfoFallback name={pokemonName} />
+  if (error) {
+  return (<div>{error.message}</div>)
+  }
+  if (!pokemonName) {
+    return <PokemonInfoFallback name={pokemonName} />
+  }
   if (pokemon) return <PokemonDataView pokemon={pokemon} />
   // 🐨 Have state for the pokemon (null)
   // 🐨 use React.useEffect where the callback should be called whenever the
